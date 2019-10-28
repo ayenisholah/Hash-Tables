@@ -2,6 +2,8 @@
 # Linked List hash table key/value pair
 # '''
 
+import hashlib
+
 
 class LinkedPair:
     def __init__(self, key, value):
@@ -36,7 +38,10 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        pass
+        # hash = 5381
+        # for x in key:
+        #     hash = ((hash << 5) + hash) + ord(x)
+        # return int(hash & 0xFFFFFFFF)
 
     def _hash_mod(self, key):
         '''
@@ -66,7 +71,7 @@ class HashTable:
 
         # Shift everything that is to the right of key over by 1
         for i in range(self.count, key, -1):
-            self.storage[i] = self.storage[key - 1]
+            self.storage[i] = self.storage[key]
 
         # insert the value at the index
         self.storage[key] = value
@@ -82,7 +87,25 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        # First hash key
+        key = self._hash(key)
+
+        # Covert hash to valid integer
+        key = self._hash_mod(key)
+
+        # Check if key is found
+        if not self.storage[key]:
+            print("Key not found")
+
+        # store the value of key
+        item = self.storage[key]
+
+        # set the current count - 1 value to None
+        self.storage[key] = None
+
+        # Decrement count
+        self.count -= 1
+        return item
 
     def retrieve(self, key):
         '''
@@ -92,11 +115,14 @@ class HashTable:
 
         Fill this in.
         '''
-        # Pass the key
-        # returned the value saved in storage
-        # run hashing function on the key, will return the same value
-        # retrieve value from storage using the index from the hash function
-        pass
+        # First hash key
+        key = self._hash(key)
+
+        # Covert hash to valid integer
+        key = self._hash_mod(key)
+
+        # return storage at key
+        return self.storage[key]
 
     def resize(self):
         '''
