@@ -1,21 +1,25 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+
+
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
         self.value = value
         self.next = None
 
+
 class HashTable:
     '''
     A hash table that with `capacity` buckets
     that accepts string keys
     '''
+
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
-
+        self.count = 0
 
     def _hash(self, key):
         '''
@@ -23,8 +27,14 @@ class HashTable:
 
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
-        return hash(key)
+        # Write a function that takes an input and always returns the consistent output.
+        # Get the ASCII value of each character
+        # Multiply them together
+        # Return it as hex instead of decimal
 
+        # def my_hash(self.key):
+
+        return hash(key)
 
     def _hash_djb2(self, key):
         '''
@@ -34,14 +44,12 @@ class HashTable:
         '''
         pass
 
-
     def _hash_mod(self, key):
         '''
         Take an arbitrary key and return a valid integer index
         within the storage capacity of the hash table.
         '''
         return self._hash(key) % self.capacity
-
 
     def insert(self, key, value):
         '''
@@ -51,9 +59,13 @@ class HashTable:
 
         Fill this in.
         '''
+        # Save the value in the array
+        # Run the hash function with only the key
+        # return a index
+        # Save the value to the returned index of our storage
+        # If there's a match
+        # Update value
         pass
-
-
 
     def remove(self, key):
         '''
@@ -65,7 +77,6 @@ class HashTable:
         '''
         pass
 
-
     def retrieve(self, key):
         '''
         Retrieve the value stored with the given key.
@@ -74,8 +85,11 @@ class HashTable:
 
         Fill this in.
         '''
+        # Pass the key
+        # returned the value saved in storage
+        # run hashing function on the key, will return the same value
+        # retrieve value from storage using the index from the hash function
         pass
-
 
     def resize(self):
         '''
@@ -84,8 +98,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
+        # set capacity to capacity times 2
+        self.capacity *= 2
+        # Create a new storage
+        new_storage = [None] * self.capacity
+        # Copy over content of storage to the new storage
+        for i in range(self.count):
+            new_storage[i] = self.storage[i]
+        self.storage = new_storage
 
 
 if __name__ == "__main__":
