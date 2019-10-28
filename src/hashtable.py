@@ -27,12 +27,6 @@ class HashTable:
 
         You may replace the Python hash with DJB2 as a stretch goal.
         '''
-        # Write a function that takes an input and always returns the consistent output.
-        # Get the ASCII value of each character
-        # Multiply them together
-        # Return it as hex instead of decimal
-
-        # def my_hash(self.key):
 
         return hash(key)
 
@@ -59,13 +53,26 @@ class HashTable:
 
         Fill this in.
         '''
-        # Save the value in the array
-        # Run the hash function with only the key
-        # return a index
-        # Save the value to the returned index of our storage
-        # If there's a match
-        # Update value
-        pass
+        # check that count is not bigger than capacity
+        if self.count >= self.capacity:
+            # resize the array
+            self.resize()
+
+        # First hash the key
+        key = self._hash(key)
+
+        # set key to be valid integer by passing it through _hash_mod
+        key = self._hash_mod(key)
+
+        # Shift everything that is to the right of key over by 1
+        for i in range(self.count, key, -1):
+            self.storage[i] = self.storage[key - 1]
+
+        # insert the value at the index
+        self.storage[key] = value
+
+        # increment count
+        self.count += 1
 
     def remove(self, key):
         '''
