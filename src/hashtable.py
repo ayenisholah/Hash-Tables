@@ -38,10 +38,6 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        # hash = 5381
-        # for x in key:
-        #     hash = ((hash << 5) + hash) + ord(x)
-        # return int(hash & 0xFFFFFFFF)
 
     def _hash_mod(self, key):
         '''
@@ -49,6 +45,10 @@ class HashTable:
         within the storage capacity of the hash table.
         '''
         return self._hash(key) % self.capacity
+
+    def _rehash(self, key):
+        index = self._hash_mod(key)
+        return (index + 1) % self.resize()
 
     def insert(self, key, value):
         '''
@@ -58,25 +58,23 @@ class HashTable:
 
         Fill this in.
         '''
-        # check that count is not bigger than capacity
-        if self.count >= self.capacity:
-            # resize the array
-            self.resize()
 
-        # First hash the key
-        key = self._hash(key)
-
-        # set key to be valid integer by passing it through _hash_mod
-        key = self._hash_mod(key)
-
-        # Shift everything that is to the right of key over by 1
-        for i in range(self.count, key, -1):
-            self.storage[i] = self.storage[key]
-
-        # insert the value at the index
-        self.storage[key] = value
-
-        # increment count
+        # use hash mod function to get a valid index
+        index = self._hash_mod(key)
+        # Check if the storage at that index is occupied
+        if self.storage[index]:
+            # If index position is occupied and the key is not the same as the key of the object to be added
+            if self.storage[index] and self.storage[index].key != key:
+                # chain a new link list
+                node = self.storage[index]
+                node.next = LinkedPair(key, value)
+            # otherwise
+            else:
+                self.storage[index].value = value
+        # If storage at that index is empty, set the 
+        else:
+            self.storage[index] = LinkedPair(key, value)
+        # Increment the count of the storage
         self.count += 1
 
     def remove(self, key):
@@ -116,13 +114,12 @@ class HashTable:
         Fill this in.
         '''
         # First hash key
-        key = self._hash(key)
-
-        # Covert hash to valid integer
-        key = self._hash_mod(key)
-
-        # return storage at key
-        return self.storage[key]
+        index = self._hash_mod(key)
+        if self.storage[index]:
+            return self.storage[index].retrieve(key)
+        else:
+            print(f"Hash[{key}] is undefined")
+            return None
 
     def resize(self):
         '''
@@ -131,14 +128,11 @@ class HashTable:
 
         Fill this in.
         '''
-        # set capacity to capacity times 2
         self.capacity *= 2
-        # Create a new storage
-        new_storage = [None] * self.capacity
-        # Copy over content of storage to the new storage
-        for i in range(self.count):
-            new_storage[i] = self.storage[i]
-        self.storage = new_storage
+        old_storage = self.storage
+        self.storage = [None] * self.capacity
+
+        self.storage
 
 
 if __name__ == "__main__":
