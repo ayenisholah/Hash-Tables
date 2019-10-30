@@ -71,7 +71,7 @@ class HashTable:
             # otherwise
             else:
                 self.storage[index].value = value
-        # If storage at that index is empty, set the 
+        # If storage at that index is empty, set the
         else:
             self.storage[index] = LinkedPair(key, value)
         # Increment the count of the storage
@@ -85,25 +85,16 @@ class HashTable:
 
         Fill this in.
         '''
-        # First hash key
-        key = self._hash(key)
-
-        # Covert hash to valid integer
-        key = self._hash_mod(key)
-
-        # Check if key is found
-        if not self.storage[key]:
-            print("Key not found")
-
-        # store the value of key
-        item = self.storage[key]
-
-        # set the current count - 1 value to None
-        self.storage[key] = None
-
-        # Decrement count
-        self.count -= 1
-        return item
+        # Get a valid index
+        index = self._hash_mod(key)
+        # Check if the key is in the storage
+        if self.storage[index]:
+            # Set it to none
+            self.storage[index] = None
+            # Decrement count
+            self.count -= 1
+        else:
+            print(f"{key} not found")
 
     def retrieve(self, key):
         '''
@@ -113,13 +104,7 @@ class HashTable:
 
         Fill this in.
         '''
-        # First hash key
-        index = self._hash_mod(key)
-        if self.storage[index]:
-            return self.storage[index].retrieve(key)
-        else:
-            print(f"Hash[{key}] is undefined")
-            return None
+        
 
     def resize(self):
         '''
