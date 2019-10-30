@@ -104,7 +104,15 @@ class HashTable:
 
         Fill this in.
         '''
-        
+        index = self._hash_mod(key)
+
+        if self.storage[index]:
+            if self.storage[index].key != key:
+                return self.storage[index].next.value
+            else:
+                return self.storage[index].value
+        else:
+            return None
 
     def resize(self):
         '''
