@@ -121,11 +121,11 @@ class HashTable:
 
         Fill this in.
         '''
-        self.capacity *= 2
-        old_storage = self.storage
-        self.storage = [None] * self.capacity
+        new_storage = [None] * self.capacity * 2
 
-        self.storage
+        for i in range(self.capacity):
+            new_storage[i] = self.storage[i]
+        self.storage = new_storage
 
 
 if __name__ == "__main__":
