@@ -58,6 +58,10 @@ class HashTable:
 
         Fill this in.
         '''
+        # check that count is not bigger than capacity
+        if self.count >= self.capacity:
+            # resize the array
+            self.resize()
 
         # use hash mod function to get a valid index
         index = self._hash_mod(key)
